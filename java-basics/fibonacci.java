@@ -1,4 +1,3 @@
-package C01;
 import java.util.Scanner;
 
 public class fibonacci {
