@@ -64,9 +64,6 @@ class Teacher extends Employee{
             }catch(Exception e){
                 System.out.println("Error: "+e.getMessage());
             }
-            
-
-
         }
 }
 
@@ -113,12 +110,6 @@ public class PersonInheritance {
         }
         
         System.out.println("\n\n---------Teacher Details---------");
-        // try{
-        //     Thread.sleep(1000); // Delay for 2000 milliseconds (2 seconds)
-        // }catch(Exception e){
-        //     System.out.println("An error occured: "+e.getMessage());
-        // }
-
         for(int i=0;i<n;i++){
             System.out.println("\n----Details of teacher "+(i+1)+"----\n");
             teachers[i].dis();
