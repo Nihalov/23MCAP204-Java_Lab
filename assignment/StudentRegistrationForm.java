@@ -12,7 +12,7 @@ public class StudentRegistrationForm extends JFrame implements ActionListener {
     private JButton submitButton, resetButton;
     private ButtonGroup genderGroup;
 
-    public StudentRegistrationForm() {k
+    public StudentRegistrationForm() {
         setTitle("Student Registration Form");
         setSize(400, 450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
