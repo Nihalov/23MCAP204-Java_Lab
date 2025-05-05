@@ -1,72 +1,91 @@
 import java.util.Scanner;
 
-// Class to generate Fibonacci numbers
-class FibonacciThread extends Thread {
-    private int count;
+// Fibonacci class to generate Fibonacci numbers
+class Fibonacci implements Runnable {
+    private int limit;
 
-    public FibonacciThread(int count) {
-        this.count = count;
+    public Fibonacci(int limit) {
+        this.limit = limit;
     }
 
     @Override
     public void run() {
-        int n1 = 0, n2 = 1;
-        System.out.println("\nFibonacci Series up to " + count + " terms:");
-        for (int i = 1; i <= count; i++) {
-            System.out.print(n1 + " ");
-            int next = n1 + n2;
-            n1 = n2;
-            n2 = next;
+        int first = 0, second = 1, next;
+
+        System.out.println("Fibonacci Series up to " + limit + ":");
+        System.out.print(first + " " + second + " ");
+
+        while (true) {
+            next = first + second;
+            if (next > limit) {
+                break;
+            }
+            System.out.print(next + " ");
+            first = second;
+            second = next;
         }
-        System.out.println("\nFibonacci Thread finished.\n");
+        System.out.println();
     }
 }
 
-// Class to display even numbers in a range
-class EvenNumberThread extends Thread {
+// EvenNumbers class to display even numbers in a given range
+class EvenNumbers implements Runnable {
     private int start, end;
 
-    public EvenNumberThread(int start, int end) {
+    public EvenNumbers(int start, int end) {
         this.start = start;
         this.end = end;
     }
 
     @Override
     public void run() {
-        System.out.println("\nEven Numbers from " + start + " to " + end + ":");
+        System.out.println("Even numbers between " + start + " and " + end + ":");
         for (int i = start; i <= end; i++) {
             if (i % 2 == 0) {
                 System.out.print(i + " ");
             }
         }
-        System.out.println("\nEven Number Thread finished.\n");
+        System.out.println();
     }
 }
 
-// Main class to run the threads
 public class fibo_even {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        // Create a Scanner object for user input
+        Scanner sc = new Scanner(System.in);
 
-        // Input for Fibonacci
-        System.out.print("Enter how many Fibonacci numbers to generate: ");
-        int fibCount = scanner.nextInt();
+        // User input for Fibonacci limit
+        System.out.print("Enter the limit for Fibonacci series: ");
+        int fibLimit = sc.nextInt();
 
-        // Input for Even numbers
-        System.out.print("Enter start of range for even numbers: ");
-        int startRange = scanner.nextInt();
+        // User input for the range for even numbers
+        System.out.print("Enter the start of the range for even numbers: ");
+        int start = sc.nextInt();
 
-        System.out.print("Enter end of range for even numbers: ");
-        int endRange = scanner.nextInt();
+        System.out.print("Enter the end of the range for even numbers: ");
+        int end = sc.nextInt();
 
-        // Create thread objects
-        FibonacciThread fibThread = new FibonacciThread(fibCount);
-        EvenNumberThread evenThread = new EvenNumberThread(startRange, endRange);
+        // Create thread for Fibonacci number generation
+        Fibonacci fibTask = new Fibonacci(fibLimit);
+        Thread fibThread = new Thread(fibTask);
 
-        // Start threads
+        // Create thread for even number display
+        EvenNumbers evenTask = new EvenNumbers(start, end);
+        Thread evenThread = new Thread(evenTask);
+
+        // Start both threads
         fibThread.start();
         evenThread.start();
 
-        scanner.close();
+        try {
+            // Wait for both threads to finish
+            fibThread.join();
+            evenThread.join();
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted: " + e.getMessage());
+        }
+
+        System.out.println("Both tasks completed.");
+        sc.close();
     }
 }
